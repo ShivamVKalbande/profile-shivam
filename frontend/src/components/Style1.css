@@ -1,0 +1,136 @@
+/* style1.css */
+.container {
+    padding: 10px;
+    margin-left: 330px;
+    margin-right: 20px;
+    max-width: 1200px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.link-button {
+    padding: 8px;
+    margin-right: 430px;
+    color: black;
+    border: none;
+    text-decoration: none;
+}
+
+.save-button {
+    padding: 8px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+.bill-to-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+.bill-to {
+    flex: 1;
+    margin-right: 20px;
+    border-right: 1px solid #ddd;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.add-customer {
+    border: 1px dashed #ccc;
+    padding: 20px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.search-party {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.cover-input {
+    display: flex;
+    align-items: center;
+}
+
+.cover-input input {
+    width: 100%;
+    padding-right: 40px;
+    box-sizing: border-box;
+}
+
+.result-data {
+    list-style-type: none;
+    padding: 0;
+}
+
+.result-data li {
+    padding: 5px 0;
+}
+
+.table-container {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table-header {
+    background-color: #f9f9f9;
+}
+
+.table-header th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.table-row td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.total-section {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    background-color: #f9f9f9;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.round-off-section {
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.round-off-dropdown {
+    margin-left: auto;
+}
+
+.signatory {
+    font-weight: bold;
+}
+
+.additional-charge {
+    display: flex;
+    margin-top: 10px;
+}
+
+.transport-charges {
+    display: flex;
+    align-items: center;
+}
+
+.resultData {
+    color: black;
+}
