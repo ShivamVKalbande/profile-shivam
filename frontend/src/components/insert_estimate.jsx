@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { EstimateContext } from "./EstimateContext";
 import "./Modal.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+
 
 function Insert_estimate() {
   const navigate = useNavigate();
@@ -306,7 +309,7 @@ function Insert_estimate() {
                     className="inesmg"
                     onClick={() => handleDeleteItem(index)}
                   >
-                    <span className="inesmh">&times;</span>
+                    <FontAwesomeIcon icon={faTrashAlt} />
                   </button>
                 </td>
               </tr>
