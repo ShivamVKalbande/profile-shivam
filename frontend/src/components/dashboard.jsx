@@ -81,12 +81,6 @@ function Dashboard() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link collapsed" to="/estimate">
-              <i className="bi bi-menu-button-wide"></i>
-              <span>Estimate</span>
-            </Link>
-          </li>
-          <li className="nav-item">
             <a className="nav-link collapsed" href="#logout" onClick={(e) => { e.preventDefault(); openModal(); }}>
               <i className="bi bi-box-arrow-in-left"></i>
               <span>Logout</span>
