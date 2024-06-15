@@ -20,27 +20,30 @@ function Insert_estimate() {
   const [overallTotalAmount, setOverallTotalAmount] = useState("");
 
   useEffect(() => {
-    if (selectedItems.length > 0) {
-      setAllItems(prevItems => [...prevItems, ...selectedItems]);
-    }
+    const insetSelectedItems = Array.isArray(selectedItems)
+      ? selectedItems
+      : [selectedItems];
+    setAllItems(insetSelectedItems);
   }, [selectedItems]);
 
   useEffect(() => {
-    const newRows = allItems.map((item, index) => {
-      const existingRow = rows.find(row => row.product_id === item.productId);
-      return existingRow ? existingRow : {
-        id: rows.length + index + 1,
-        item: item.name,
-        hsn: item.code,
-        quantity: item.quantity,
-        amount: item.salesPrice,
-        selectedTax: item.selectedTax,
-        product_id: item.productId,
-        totalAmount: calculateTotal(item.quantity, item.salesPrice, item.selectedTax, item.itemDiscountAmount),
-        itemDiscountAmount: item.itemDiscountAmount,
-        itemDiscountPercent: item.itemDiscountPercent,
-      };
-    });
+    const newRows = allItems.map((item, index) => ({
+      id: index + 1,
+      item: item.name,
+      hsn: item.code,
+      quantity: item.quantity,
+      amount: item.salesPrice,
+      selectedTax: item.selectedTax,
+      product_id: item.productId,
+      totalAmount: calculateTotal(
+        item.quantity,
+        item.salesPrice,
+        item.selectedTax,
+        item.itemDiscountAmount
+      ),
+      itemDiscountAmount: item.itemDiscountAmount,
+      itemDiscountPercent: item.itemDiscountPercent,
+    }));
     setRows(newRows);
   }, [allItems]);
 
@@ -70,38 +73,55 @@ function Insert_estimate() {
   const handleItemInputChange = (index, event) => {
     const { name, value } = event.target;
     const newRows = [...rows];
-    const updatedRow = { ...newRows[index], [name]: value };
-    newRows[index] = updatedRow;
+    newRows[index][name] = value;
 
-    const { quantity, amount, selectedTax, itemDiscountAmount, itemDiscountPercent, totalAmount } = newRows[index];
-
+    const quantity = parseFloat(newRows[index].quantity) || 0;
+    const amount = parseFloat(newRows[index].amount) || 0;
+    const selectedTax = parseFloat(newRows[index].selectedTax) || 0;
+    const itemDiscountAmount = parseFloat(newRows[index].itemDiscountAmount) || 0;
+    const itemDiscountPercent = parseFloat(newRows[index].itemDiscountPercent) || 0;
+    const totalAmount = parseFloat(newRows[index].totalAmount) || 0;
+        
     if (name === "itemDiscountPercent") {
-      const discountAmount = (amount * quantity * itemDiscountPercent) / 100;
-      newRows[index]["itemDiscountAmount"] = discountAmount.toFixed(2);
+        const discountAmount = (amount * quantity * itemDiscountPercent) / 100;
+        newRows[index]["itemDiscountAmount"] = discountAmount.toFixed(2);
     }
-
+    
     if (name === "itemDiscountAmount") {
-      const discountPercent = (itemDiscountAmount / (amount * quantity)) * 100;
-      newRows[index]["itemDiscountPercent"] = discountPercent.toFixed(2);
+        const discountPercent = (itemDiscountAmount / (amount * quantity)) * 100;
+        newRows[index]["itemDiscountPercent"] = discountPercent.toFixed(2);
     }
 
     if (name === "totalAmount") {
-      const ChangedAmount1 = (totalAmount / quantity);
-      const discountAmount1 = (ChangedAmount1 * quantity * itemDiscountPercent) / 100;
-      const ChangedAmount2 = ChangedAmount1 - ((ChangedAmount1 * selectedTax) / 100) + discountAmount1;
-      const discountAmount2 = (ChangedAmount2 * quantity * itemDiscountPercent) / 100;
-      newRows[index]["amount"] = ChangedAmount2.toFixed(2);
-      newRows[index]["itemDiscountAmount"] = discountAmount2.toFixed(2);
+        const ChangedAmount1 = (totalAmount/quantity);
+        const discountAmount1 = (ChangedAmount1 * quantity * itemDiscountPercent) / 100;
+        const ChangedAmount2 = ChangedAmount1 -((ChangedAmount1*selectedTax)/100) + discountAmount1;
+        const discountAmount2 = (ChangedAmount2 * quantity * itemDiscountPercent) / 100;
+        newRows[index]["amount"] = ChangedAmount2.toFixed(2);
+        newRows[index]["itemDiscountAmount"] = discountAmount2.toFixed(2);
     }
 
-    if (name === "quantity" || name === "amount" || name === "selectedTax" || name === "itemDiscountAmount" || name === "itemDiscountPercent") {
-      const updatedDiscountAmount = parseFloat(newRows[index].itemDiscountAmount) || 0;
-      newRows[index]["totalAmount"] = calculateTotal(quantity, amount, selectedTax, updatedDiscountAmount);
+    if (
+        name === "quantity" ||
+        name === "amount" ||
+        name === "selectedTax" ||
+        name === "itemDiscountAmount" ||
+        name === "itemDiscountPercent"
+    ) {
+        const updatedDiscountAmount = parseFloat(newRows[index].itemDiscountAmount) || 0;
+    
+        newRows[index]["totalAmount"] = calculateTotal(
+            quantity,
+            amount,
+            selectedTax,
+            updatedDiscountAmount
+        );
     }
 
     console.log(`Updated Row ${index}:`, newRows[index]);
+
     setRows(newRows);
-  };
+};
 
   const handleDeleteItem = (index) => {
     const newRows = [...rows];
